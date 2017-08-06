@@ -6,7 +6,12 @@ class App extends Component {
   constructor(props) {
 
     super(props)
+
+    this.staggerTime = 200
+    this.animationTime = 1700
+
     this.state = {
+      isFinishedAnimating: false,
       cities: [
         {
           name: 'San Francisco',
@@ -57,8 +62,8 @@ class App extends Component {
           {
             this.state.cities.map((city, index) => {
               return (
-                <li key={index} style={this.style2(index)}>
-                  <div style={this.style5(city.coverImg)}></div>
+                <li key={index} style={this.style2(index)} onMouseEnter={this.handleMouseEnter.bind(this, index)}>
+                  <img src={city.coverImg} style={this.style5()}/>
                   <div style={this.style3(city.coverImg)}></div>
                   <div style={this.style4()}>{city.name}</div>
                 </li>
@@ -72,13 +77,18 @@ class App extends Component {
 
   componentDidMount() {
 
-    this.setState({browserWidth: window.innerWidth})
+    this.setState({
+      browserWidth: window.innerWidth,
+    })
+
+    setTimeout(() => {
+      this.setState({isFinishedAnimating: true})
+    }, 0)
 
     window.onresize = () => {
 
       this.setState({
         browserWidth: window.innerWidth,
-        browserHeight: window.innerHeight,
       })
     }
 
@@ -87,8 +97,12 @@ class App extends Component {
       return setTimeout(() => {
 
         this.setState((prevState) => ({animatedItems: prevState.animatedItems.concat(index)}))
-      }, 200 * index)
+      }, this.staggerTime * index)
     })
+  }
+
+  handleMouseEnter(index) {
+    console.log(index)
   }
 
   style0() {
@@ -96,9 +110,8 @@ class App extends Component {
       position: 'absolute',
       width: '100%',
       minHeight: '100vh',
-      // height: '100%',
-      backgroundColor: '#989898',
-      // transition: 'all 200ms ease-out',
+      backgroundColor: `${this.state.isFinishedAnimating ? '#676767' : '#000000'}`,
+      transition: 'all 2700ms linear',
     }
   }
 
@@ -122,21 +135,20 @@ class App extends Component {
       display: 'flex',
       alignItems: 'center',
       height: `${isAnimated ? 'inherit' : '30vw'}`,
-      backgroundColor: 'white',
       color: '#999999',
       fontFamily: 'Roboto, sans-serif',
       overflow: 'hidden',
       opacity: `${isAnimated ? 1 : 0}`,
       transform: `translateY(${isAnimated ? 0 : '100vh'})`,
-      transition: 'transform 1500ms cubic-bezier(0.16, 0.77, 0.45, 0.98), height 2000ms cubic-bezier(0.16, 0.77, 0.45, 0.98)',
+      transition: `transform ${this.animationTime}ms cubic-bezier(0.37, 0.39, 0.02, 1)`,
     }
   }
 
   style3(thumbnail) {
     return {
       position: 'relative',
-      minWidth: this.state.browserWidth * 0.0921052,
-      minHeight: this.state.browserWidth * 0.0921052,
+      minWidth: this.state.browserWidth * 0.1,
+      minHeight: this.state.browserWidth * 0.1,
       backgroundImage: `url(${thumbnail})`,
       backgroundSize: 'cover',
     }
@@ -158,15 +170,12 @@ class App extends Component {
 
   style5(thumbnail) {
     return {
+      display: 'block',
       position: 'absolute',
-      padding: '8%',
       width: '100%',
       height: '100%',
-      backgroundImage: `url(${thumbnail})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      filter: 'blur(30px) brightness(30%)',
-      // transform: 'scale(1.25)',
+      filter: 'blur(15px) brightness(45%)',
+      transform: 'scale(1.5)',
     }
   }
 }
