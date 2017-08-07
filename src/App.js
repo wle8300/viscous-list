@@ -1,5 +1,13 @@
 import React, {Component} from 'react'
-
+import sanFrancisco from './city-photos/san-francisco.jpg'
+import vancouver from './city-photos/vancouver.jpg'
+import tokyo from './city-photos/tokyo.jpg'
+import osaka from './city-photos/osaka.jpg'
+import losAngeles from './city-photos/los-angeles.jpg'
+import newYork from './city-photos/new-york.jpg'
+import chicago from './city-photos/chicago.jpg'
+import mykonos from './city-photos/mykonos.jpg'
+import brooklyn from './city-photos/brooklyn.jpg'
 
 class App extends Component {
 
@@ -15,39 +23,39 @@ class App extends Component {
       cities: [
         {
           name: 'San Francisco',
-          coverImg: '/city-photos/san-francisco.jpg',
+          coverImg: sanFrancisco,
         },
         {
           name: 'Vancouver',
-          coverImg: '/city-photos/vancouver.jpg',
+          coverImg: vancouver,
         },
         {
           name: 'Tokyo',
-          coverImg: '/city-photos/tokyo.jpg',
+          coverImg: tokyo,
         },
         {
           name: 'Osaka',
-          coverImg: '/city-photos/osaka.jpg',
+          coverImg: osaka,
         },
         {
           name: 'Los Angeles',
-          coverImg: '/city-photos/los-angeles.jpg',
+          coverImg: losAngeles,
         },
         {
           name: 'New York',
-          coverImg: '/city-photos/new-york.jpg',
+          coverImg: newYork,
         },
         {
           name: 'Chicago',
-          coverImg: '/city-photos/chicago.jpg',
+          coverImg: chicago,
         },
         {
           name: 'Mykonos',
-          coverImg: '/city-photos/mykonos.jpg',
+          coverImg: mykonos,
         },
         {
           name: 'Brooklyn',
-          coverImg: '/city-photos/brooklyn.jpg',
+          coverImg: brooklyn,
         },
       ],
       animatedItems: [],
@@ -76,6 +84,8 @@ class App extends Component {
   }
 
   componentDidMount() {
+
+    console.log('process.env.PUBLIC_URL', process.env);
 
     this.setState({
       browserWidth: window.innerWidth,
@@ -106,12 +116,18 @@ class App extends Component {
   }
 
   style0() {
+
+    const transition = 'all 2000ms linear'
+
+
     return {
       position: 'absolute',
       width: '100%',
       minHeight: '100vh',
-      backgroundColor: `${this.state.isFinishedAnimating ? '#676767' : '#000000'}`,
-      transition: 'all 2700ms linear',
+      backgroundColor: `${this.state.isFinishedAnimating ? '#333333' : '#676767'}`,
+      transition: transition,
+      msTransition: transition,
+      WebkitTransition: transition,
     }
   }
 
@@ -128,6 +144,8 @@ class App extends Component {
   style2(index) {
 
     const isAnimated = this.state.animatedItems.indexOf(index) >= 0
+    const transform = `translateY(${isAnimated ? 0 : '100vh'})`
+    const transition = `transform ${this.animationTime}ms cubic-bezier(0.37, 0.39, 0.02, 1)`
 
 
     return {
@@ -139,8 +157,12 @@ class App extends Component {
       fontFamily: 'Roboto, sans-serif',
       overflow: 'hidden',
       opacity: `${isAnimated ? 1 : 0}`,
-      transform: `translateY(${isAnimated ? 0 : '100vh'})`,
-      transition: `transform ${this.animationTime}ms cubic-bezier(0.37, 0.39, 0.02, 1)`,
+      transform: transform,
+      msTransform: transform,
+      WebkitTransform: transform,
+      transition: transition,
+      msTransition: transition,
+      WebkitTransition: transition,
     }
   }
 
@@ -169,13 +191,22 @@ class App extends Component {
   }
 
   style5(thumbnail) {
+
+    const transform = 'scale(1.5)'
+    const filter = 'blur(15px) brightness(45%)'
+
+
     return {
       display: 'block',
       position: 'absolute',
       width: '100%',
       height: '100%',
-      filter: 'blur(15px) brightness(45%)',
-      transform: 'scale(1.5)',
+      filter: filter,
+      msFilter: filter,
+      WebkitFilter: filter,
+      transform: transform,
+      msTransform: transform,
+      WebkitTransform: transform,
     }
   }
 }
