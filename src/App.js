@@ -9,6 +9,7 @@ import chicago from './city-photos/chicago.jpg'
 import mykonos from './city-photos/mykonos.jpg'
 import brooklyn from './city-photos/brooklyn.jpg'
 
+
 class App extends Component {
 
   constructor(props) {
@@ -17,6 +18,14 @@ class App extends Component {
 
     this.staggerTime = 200
     this.animationTime = 1700
+    this.isChrome = () => {
+
+      if (navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
+        return true
+      } else {
+        return false
+      }
+    }
 
     this.state = {
       isFinishedAnimating: false,
@@ -60,13 +69,14 @@ class App extends Component {
       ],
       animatedItems: [],
       browserWidth: 0,
+      isHovering: false,
     }
   }
 
   render() {
     return (
       <div style={this.style0()}>
-        <ul style={this.style1()}>
+        <ul style={this.style1()} onClick={window.location.reload.bind(window.location)} onMouseOver={() => this.setState({isHovering: true})} onMouseOut={() => this.setState({isHovering: false})}>
           {
             this.state.cities.map((city, index) => {
               return (
@@ -137,6 +147,8 @@ class App extends Component {
       display : 'flex',
       flexFlow : 'column',
       margin: `${this.state.browserWidth < 700 ? '0' : '10vw auto'}`,
+      padding: '1rem',
+      backgroundColor: `${this.state.isHovering ? 'hotpink' : 'transparent'}`,
       width: `${this.state.browserWidth < 700 ? '100%' : '50vw'}`,
     }
   }
@@ -163,6 +175,8 @@ class App extends Component {
       transition: transition,
       msTransition: transition,
       WebkitTransition: transition,
+      cursor: 'pointer',
+      opacity: this.state.isHovering ? 0.6 : 1,
     }
   }
 
@@ -192,8 +206,8 @@ class App extends Component {
 
   style5(thumbnail) {
 
-    const transform = 'scale(1.5)'
-    const filter = 'blur(15px) brightness(45%)'
+    const transform = `${this.isChrome() ? 'scale(1.5)' : 'scale(1)'}`
+    const filter = `${this.isChrome() ? 'blur(15px) brightness(45%)' : 'brightness(10%)'}`
 
 
     return {
@@ -207,6 +221,9 @@ class App extends Component {
       transform: transform,
       msTransform: transform,
       WebkitTransform: transform,
+      backgroundColor: `${this.isChrome() ? 'transparent' : 'black'}`,
+      border: 'none',
+      objectFit: `${this.isChrome() ? 'inherit' : 'cover'}`,
     }
   }
 }
