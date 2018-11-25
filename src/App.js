@@ -8,6 +8,15 @@ import newYork from './city-photos/new-york.jpg'
 import chicago from './city-photos/chicago.jpg'
 import mykonos from './city-photos/mykonos.jpg'
 import brooklyn from './city-photos/brooklyn.jpg'
+import sanFranciscoBlurred from './city-photos/san-francisco-blurred.jpg'
+import vancouverBlurred from './city-photos/vancouver-blurred.jpg'
+import tokyoBlurred from './city-photos/tokyo-blurred.jpg'
+import osakaBlurred from './city-photos/osaka-blurred.jpg'
+import losAngelesBlurred from './city-photos/los-angeles-blurred.jpg'
+import newYorkBlurred from './city-photos/new-york-blurred.jpg'
+import chicagoBlurred from './city-photos/chicago-blurred.jpg'
+import mykonosBlurred from './city-photos/mykonos-blurred.jpg'
+import brooklynBlurred from './city-photos/brooklyn-blurred.jpg'
 
 
 class App extends Component {
@@ -28,43 +37,51 @@ class App extends Component {
     }
 
     this.state = {
-      isFinishedAnimating: false,
       cities: [
         {
           name: 'San Francisco',
           coverImg: sanFrancisco,
+          coverImgBlurred: sanFranciscoBlurred,
         },
         {
           name: 'Vancouver',
           coverImg: vancouver,
+          coverImgBlurred: vancouverBlurred,
         },
         {
           name: 'Tokyo',
           coverImg: tokyo,
+          coverImgBlurred: tokyoBlurred,
         },
         {
           name: 'Osaka',
           coverImg: osaka,
+          coverImgBlurred: osakaBlurred,
         },
         {
           name: 'Los Angeles',
           coverImg: losAngeles,
+          coverImgBlurred: losAngelesBlurred,
         },
         {
           name: 'New York',
           coverImg: newYork,
+          coverImgBlurred: newYorkBlurred,
         },
         {
           name: 'Chicago',
           coverImg: chicago,
+          coverImgBlurred: chicagoBlurred,
         },
         {
           name: 'Mykonos',
           coverImg: mykonos,
+          coverImgBlurred: mykonosBlurred,
         },
         {
           name: 'Brooklyn',
           coverImg: brooklyn,
+          coverImgBlurred: brooklynBlurred,
         },
       ],
       animatedItems: [],
@@ -80,8 +97,8 @@ class App extends Component {
           {
             this.state.cities.map((city, index) => {
               return (
-                <li key={index} style={this.style2(index)} onMouseEnter={this.handleMouseEnter.bind(this, index)}>
-                  <img src={city.coverImg} style={this.style5()}/>
+                <li key={index} style={this.style2(index)}>
+                  <img src={city.coverImgBlurred} style={this.style5()}/>
                   <div style={this.style3(city.coverImg)}></div>
                   <div style={this.style4()}>{city.name}</div>
                 </li>
@@ -95,15 +112,9 @@ class App extends Component {
 
   componentDidMount() {
 
-    console.log('process.env.PUBLIC_URL', process.env);
-
     this.setState({
       browserWidth: window.innerWidth,
     })
-
-    setTimeout(() => {
-      this.setState({isFinishedAnimating: true})
-    }, 0)
 
     window.onresize = () => {
 
@@ -121,10 +132,6 @@ class App extends Component {
     })
   }
 
-  handleMouseEnter(index) {
-    console.log(index)
-  }
-
   style0() {
 
     const transition = 'all 2000ms linear'
@@ -132,9 +139,11 @@ class App extends Component {
 
     return {
       position: 'absolute',
+      display: 'flex',
+      justifyContent: 'center',
       width: '100%',
       minHeight: '100vh',
-      backgroundColor: `${this.state.isFinishedAnimating ? '#333333' : '#676767'}`,
+      backgroundColor: '#202020',
       transition: transition,
       msTransition: transition,
       WebkitTransition: transition,
@@ -146,10 +155,11 @@ class App extends Component {
       position: 'relative',
       display : 'flex',
       flexFlow : 'column',
-      margin: `${this.state.browserWidth < 700 ? '0' : '10vw auto'}`,
-      padding: '1rem',
+      margin: `${this.state.browserWidth < 700 ? '0' : '10vw 0'}`,
+      // padding: '1rem',
       backgroundColor: `${this.state.isHovering ? 'hotpink' : 'transparent'}`,
-      width: `${this.state.browserWidth < 700 ? '100%' : '50vw'}`,
+      width: `${this.state.browserWidth < 700 ? '100%' : '60vw'}`,
+      maxWidth: 1024,
     }
   }
 
@@ -183,8 +193,8 @@ class App extends Component {
   style3(thumbnail) {
     return {
       position: 'relative',
-      minWidth: this.state.browserWidth * 0.1,
-      minHeight: this.state.browserWidth * 0.1,
+      minWidth: this.state.browserWidth * 0.13,
+      minHeight: this.state.browserWidth * 0.13,
       backgroundImage: `url(${thumbnail})`,
       backgroundSize: 'cover',
     }
@@ -196,19 +206,18 @@ class App extends Component {
       alignSelf: 'flex-end',
       padding: '2% 3% 3%',
       width: '100%',
-      fontSize: this.state.browserWidth * 0.01948,
-      whiteSpace: 'nowrap',
-      overflow: 'hidden',
+      fontSize: this.state.browserWidth * 0.02,
+      // whiteSpace: 'nowrap',
+      // overflow: 'hidden',
       color: '#ffffff',
-      textOverflow: 'ellipsis',
+      // textOverflow: 'ellipsis',
     }
   }
 
-  style5(thumbnail) {
+  style5() {
 
     const transform = `${this.isChrome() ? 'scale(1.5)' : 'scale(1)'}`
-    const filter = `${this.isChrome() ? 'blur(15px) brightness(45%)' : 'brightness(10%)'}`
-
+    const filter = 'brightness(25%)'
 
     return {
       display: 'block',
@@ -221,9 +230,9 @@ class App extends Component {
       transform: transform,
       msTransform: transform,
       WebkitTransform: transform,
-      backgroundColor: `${this.isChrome() ? 'transparent' : 'black'}`,
+      backgroundColor: 'black',
       border: 'none',
-      objectFit: `${this.isChrome() ? 'inherit' : 'cover'}`,
+      objectFit: 'cover',
     }
   }
 }
